@@ -14,6 +14,10 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdtree'
 Plugin 'alvan/vim-closetag'
 Plugin 'mxw/vim-jsx'
+Plugin 'townk/vim-autoclose'
+Plugin 'scrooloose/syntastic'
+Plugin 'valloric/youcompleteme'
+Plugin 'tpope/vim-commentary'
 
 set background=dark
 
