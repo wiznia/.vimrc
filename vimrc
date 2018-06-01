@@ -18,6 +18,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'valloric/youcompleteme'
 Plugin 'tpope/vim-commentary'
 Plugin 'kennykaye/vim-relativity'
+Plugin 'luochen1990/rainbow'
 
 set background=dark
 
