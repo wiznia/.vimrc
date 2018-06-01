@@ -68,6 +68,8 @@ autocmd FileType mustache setlocal indentkeys-=*<Return>
 let mapleader = ","           " commented out in case you like your
 " set autoclose tags for these file types
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.scss,*.css,*.js'
+" activate rainbow plugin on init
+let g:rainbow_active =1
 
 nmap <leader>ne :NERDTreeToggle<cr>
 map <Leader>f :CtrlP<cr>
