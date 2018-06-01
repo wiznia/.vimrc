@@ -19,6 +19,7 @@ Plugin 'valloric/youcompleteme'
 Plugin 'tpope/vim-commentary'
 Plugin 'kennykaye/vim-relativity'
 Plugin 'luochen1990/rainbow'
+Plugin 'mustache/vim-mustache-handlebars'
 
 set background=dark
 
