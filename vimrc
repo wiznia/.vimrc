@@ -14,7 +14,6 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdtree'
 Plugin 'alvan/vim-closetag'
 Plugin 'mxw/vim-jsx'
-Plugin 'townk/vim-autoclose'
 Plugin 'scrooloose/syntastic'
 Plugin 'valloric/youcompleteme'
 Plugin 'tpope/vim-commentary'
@@ -65,6 +64,8 @@ autocmd FileType mustache setlocal indentkeys-=*<Return>
 
 " set the value of <leader> to ","
 let mapleader = ","           " commented out in case you like your
+" set autoclose tags for these file types
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.scss,*.css,*.js'
 
 nmap <leader>ne :NERDTreeToggle<cr>
 map <Leader>f :CtrlP<cr>
