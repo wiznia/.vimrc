@@ -20,6 +20,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'kennykaye/vim-relativity'
 Plugin 'luochen1990/rainbow'
 Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'tpope/vim-fugitive'
 
 set background=dark
 
@@ -74,6 +75,7 @@ let g:rainbow_active =1
 nmap <leader>ne :NERDTreeToggle<cr>
 map <Leader>f :CtrlP<cr>
 map <leader>a :Ag!<space>
+map <leader>gb :Gblame<cr>
 
 " clears search highlights
 nmap <silent> <leader><space> :nohlsearch<CR>
