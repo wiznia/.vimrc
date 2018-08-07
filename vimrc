@@ -57,6 +57,8 @@ set listchars+=precedes:<         " The character to show in the last column whe
 " remove swap and backup files from your working dir
 set backupdir=~/.vim/.tmp
 set directory=~/.vim/.tmp
+set laststatus=2
+set noswapfile
 
 " syntax matching help -- perlgem-centric,
 au BufNewFile,BufRead *.logic set filetype=perl
