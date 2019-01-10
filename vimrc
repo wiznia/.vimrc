@@ -75,6 +75,7 @@ let mapleader = ","           " commented out in case you like your
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.scss,*.css,*.js'
 " activate rainbow plugin on init
 let g:rainbow_active =1
+let g:user_emmet_leader_key=','
 
 nmap <leader>ne :NERDTreeToggle<cr>
 map <Leader>f :CtrlP<cr>
