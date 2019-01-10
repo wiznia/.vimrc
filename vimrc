@@ -21,6 +21,7 @@ Plugin 'kennykaye/vim-relativity'
 Plugin 'luochen1990/rainbow'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-fugitive'
+Plugin 'mattn/emmet-vim'
 
 set background=dark
 
