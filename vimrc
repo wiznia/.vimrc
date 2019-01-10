@@ -22,7 +22,6 @@ Plugin 'luochen1990/rainbow'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/emmet-vim'
-Plugin 'mxw/vim-jsx'
 
 set background=dark
 
