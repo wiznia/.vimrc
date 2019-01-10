@@ -22,6 +22,7 @@ Plugin 'luochen1990/rainbow'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/emmet-vim'
+Plugin 'mxw/vim-jsx'
 
 set background=dark
 
@@ -31,6 +32,12 @@ filetype plugin indent on    " required
 let g:indent_guides_enable_on_vim_startup = 1
 let g:NERDTreeIgnore=['\~$', 'tmp']
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set showmode        " shows inputs or replacement mode at the bottom
