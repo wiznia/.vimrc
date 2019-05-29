@@ -8,7 +8,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'morhetz/gruvbox'
-Plugin 'ggreer/the_silver_searcher'
+Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdtree'
@@ -22,9 +22,10 @@ Plugin 'luochen1990/rainbow'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/emmet-vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 set background=dark
-
+set encoding=utf-8
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -85,7 +86,7 @@ let g:user_emmet_leader_key=','
 
 nmap <leader>ne :NERDTreeToggle<cr>
 map <Leader>f :CtrlP<cr>
-map <leader>a :Ag!<space>
+map <leader>a :Ack!<space>
 map <leader>gb :Gblame<cr>
 
 " clears search highlights
