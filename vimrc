@@ -23,6 +23,7 @@ Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/emmet-vim'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'sheerun/vim-polyglot'
 
 set background=dark
 set encoding=utf-8
