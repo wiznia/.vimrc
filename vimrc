@@ -105,3 +105,4 @@ vnoremap j gj
 vnoremap k gk
 
 colorscheme gruvbox
+highlight Cursorline ctermbg=black
