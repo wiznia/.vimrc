@@ -1,6 +1,7 @@
 set ignorecase      " ignores case in searches
 set smartcase       " copes with camel/underscore/upper/lower case on searches and replacements
 set nocompatible    " keeps things vimmy, and not vi-y filetype plugin indent on
+set autoread
 syntax on           " syntax highlighting
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -24,7 +25,13 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/emmet-vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'tpope/vim-obsession'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
 
+autocmd BufNewFile,BufReadPost *.*.liquid let b:liquid_subtype = 'html'
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 set background=dark
 set encoding=utf-8
 call vundle#end()            " required
@@ -103,6 +110,11 @@ nnoremap k gk
 
 vnoremap j gj
 vnoremap k gk
+
+set guicursor=n-v-c:block-Cursor
+set guicursor+=i:ver100-iCursor
+set guicursor+=n-v-c:blinkon0
+set guicursor+=i:blinkwait10
 
 colorscheme gruvbox
 highlight Cursorline ctermbg=black
