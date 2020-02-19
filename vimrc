@@ -29,6 +29,7 @@ Plugin 'tpope/vim-obsession'
 Plugin 'tmux-plugins/vim-tmux-focus-events'
 
 autocmd BufNewFile,BufReadPost *.*.liquid let b:liquid_subtype = 'html'
+au BufRead,BufNewFile *.ejs setfiletype html
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
 autocmd FileChangedShellPost *
   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
@@ -46,6 +47,8 @@ let g:user_emmet_settings = {
 \      'extends' : 'jsx',
 \  },
 \}
+
+let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.snippets_custom.json')), "\n"))
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set showmode        " shows inputs or replacement mode at the bottom
@@ -96,6 +99,7 @@ nmap <leader>ne :NERDTreeToggle<cr>
 map <Leader>f :CtrlP<cr>
 map <leader>a :Ack!<space>
 map <leader>gb :Gblame<cr>
+nmap <leader>b :b#<cr>
 
 " clears search highlights
 nmap <silent> <leader><space> :nohlsearch<CR>
@@ -115,6 +119,8 @@ set guicursor=n-v-c:block-Cursor
 set guicursor+=i:ver100-iCursor
 set guicursor+=n-v-c:blinkon0
 set guicursor+=i:blinkwait10
+exec "set <F24>=\<Esc>[O"
+exec "set <F25>=\<Esc>[I"
 
 colorscheme gruvbox
 highlight Cursorline ctermbg=black
