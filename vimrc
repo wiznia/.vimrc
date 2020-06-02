@@ -124,3 +124,5 @@ exec "set <F25>=\<Esc>[I"
 
 colorscheme gruvbox
 highlight Cursorline ctermbg=black
+
+
