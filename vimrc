@@ -2,6 +2,7 @@ set ignorecase      " ignores case in searches
 set smartcase       " copes with camel/underscore/upper/lower case on searches and replacements
 set nocompatible    " keeps things vimmy, and not vi-y filetype plugin indent on
 set autoread
+set re=0
 syntax on           " syntax highlighting
 
 set rtp+=~/.vim/bundle/Vundle.vim
