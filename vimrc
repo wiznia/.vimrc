@@ -26,11 +26,6 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'tpope/vim-surround'
 Plugin 'troydm/zoomwintab.vim'
 
-autocmd BufNewFile,BufReadPost *.*.liquid let b:liquid_subtype = 'html'
-au BufRead,BufNewFile *.ejs setfiletype html
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-autocmd FileChangedShellPost *
-  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 set background=dark
 set encoding=utf-8
 call vundle#end()            " required
@@ -76,14 +71,23 @@ set backupdir=~/.vim/.tmp " remove swap and backup files from your working dir
 set directory=~/.vim/.tmp
 set laststatus=2
 set noswapfile
-set undofile        " creates .un~ files whenever you edit a file. These files contain undo information so you can undo previous actions even after you close and reopen a file.
 
 " syntax matching help -- perlgem-centric,
-au BufNewFile,BufRead *.logic set filetype=perl
-au BufNewFile,BufRead *.tmpl set filetype=html.perl
-autocmd FileType html setlocal indentkeys-=*<Return>
-autocmd FileType tmpl setlocal indentkeys-=*<Return>
-autocmd FileType mustache setlocal indentkeys-=*<Return>
+augroup syntax
+  autocmd!
+  au BufNewFile,BufRead *.logic set filetype=perl
+  au BufNewFile,BufRead *.tmpl set filetype=html.perl
+  au FileType html setlocal indentkeys-=*<Return>
+  au FileType tmpl setlocal indentkeys-=*<Return>
+  au FileType mustache setlocal indentkeys-=*<Return>
+  au BufNewFile,BufReadPost *.pug set filetype=pug
+  au BufNewFile,BufReadPost *.json set foldmethod=syntax
+  au BufNewFile,BufReadPost *.*.liquid let b:liquid_subtype = 'html'
+  au BufRead,BufNewFile *.ejs setfiletype html
+  au FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+  au FileChangedShellPost *
+        \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+augroup end
 
 " set the value of <leader> to ","
 let mapleader = ","
@@ -101,21 +105,24 @@ map <leader>a :Ack!<space>
 map <leader>gb :Gblame<cr>
 nmap <leader>b :b#<cr>
 " map - to move a line up
-nnoremap 9 ddkP
+nnoremap * ddkP
 " map - to move a line down
-nnoremap 0 ddp
+nnoremap - ddp
 " map ,ev to open VIMRC file on a split horizontal window
 nnoremap <leader>ev :split $MYVIMRC<cr>
 " map ,sv to source VIMRC file
 nnoremap <leader>sv :source $MYVIMRC<cr>
 " map oo to insert a new line below without entering insert mode
 nnoremap oo o<esc>
-" map oo to insert a new line above without entering insert mode
+" map OO to insert a new line above without entering insert mode
 nnoremap OO O<esc>
 " map ,v to split pane vertically and move to it
 nnoremap <leader>v <C-w>v<C-w><C-w>
 " map ,h to split pane horizontally and move to it
 nnoremap <leader>h <C-w>s<C-w><C-w>
+" map ,z to trigger zoom toggle on panes
+nnoremap <leader>z :ZoomWinTabToggle<cr>
+
 
 " insert new lines without having to enter text
 nmap <silent> <leader>o o<ESC>
@@ -131,8 +138,6 @@ vnoremap k gk
 " ABBREVIATIONS:
 iabbrev wiz wiznia@gmail.com
 
-" AUTOCOMMANDS
-
 set guicursor=n-v-c:block-Cursor
 set guicursor+=i:ver100-iCursor
 set guicursor+=n-v-c:blinkon0
@@ -144,8 +149,6 @@ colorscheme gruvbox
 highlight Cursorline ctermbg=black
 
 set visualbell
-au BufNewFile,BufReadPost *.pug set filetype=pug
-au BufNewFile,BufReadPost *.json set foldmethod=syntax
 
 " WSL yank support
 let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
