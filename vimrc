@@ -102,7 +102,7 @@ let g:user_emmet_leader_key=','
 nmap <leader>ne :NERDTreeToggle<cr>
 map <Leader>f :CtrlP<cr>
 map <leader>a :Ack!<space>
-map <leader>gb :Gblame<cr>
+map <leader>gb :Git blame<cr>
 nmap <leader>b :b#<cr>
 " map - to move a line up
 nnoremap * ddkP
