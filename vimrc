@@ -71,6 +71,7 @@ set backupdir=~/.vim/.tmp " remove swap and backup files from your working dir
 set directory=~/.vim/.tmp
 set laststatus=2
 set noswapfile
+set foldlevel=99
 
 " syntax matching help -- perlgem-centric,
 augroup syntax
