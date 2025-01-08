@@ -2,6 +2,9 @@ syntax on           " syntax highlighting
 
 set rtp+=~/.vim/bundle/Vundle.vim
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+set nobackup
+set noswapfile
+set nopaste
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -10,21 +13,66 @@ Plugin 'mileszs/ack.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdtree'
 Plugin 'alvan/vim-closetag'
-Plugin 'mxw/vim-jsx'
 Plugin 'scrooloose/syntastic'
-Plugin 'valloric/youcompleteme'
 Plugin 'tpope/vim-commentary'
 Plugin 'kennykaye/vim-relativity'
-Plugin 'luochen1990/rainbow'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mattn/emmet-vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-obsession'
-Plugin 'tmux-plugins/vim-tmux-focus-events'
+Plugin 'dhruvasagar/vim-prosession'
 Plugin 'tpope/vim-surround'
 Plugin 'troydm/zoomwintab.vim'
+Plugin 'honza/vim-snippets'
+Plugin 'justinj/vim-react-snippets'
+Plugin 'apazzolini/vim-javascript'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'maxmellon/vim-jsx-pretty'
+Plugin 'ervandew/supertab'
+Plugin 'neoclide/coc.nvim'
+Plugin 'neoclide/coc-tsserver'
+
+" SirVer/ultisnips Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:coc_global_extensions = ['coc-tsserver']
+
+" vim-closetag filenames like *.xml, *.html, *.xhtml, ...
+" These are the file extensions where this plugin is enabled.
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
+
+" filenames like *.xml, *.xhtml, ...
+" This will make the list of non-closing tags self-closing in the specified files.
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+
+" filetypes like xml, html, xhtml, ...
+" These are the file types where this plugin is enabled.
+let g:closetag_filetypes = 'html,xhtml,phtml'
+
+" filetypes like xml, xhtml, ...
+" This will make the list of non-closing tags self-closing in the specified files.
+let g:closetag_xhtml_filetypes = 'xhtml,jsx'
+
+" integer value [0|1]
+" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+let g:closetag_emptyTags_caseSensitive = 1
+
+" dict
+" Disables auto-close if not in a "valid" region (based on filetype)
+let g:closetag_regions = {
+    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+    \ 'javascript.jsx': 'jsxRegion',
+    \ 'typescriptreact': 'jsxRegion,tsxRegion',
+    \ 'javascriptreact': 'jsxRegion',
+    \ }
+
+" Shortcut for closing tags, default is '>'
+let g:closetag_shortcut = '>'
+
+" Add > at current position without closing the current tag, default is ''
+let g:closetag_close_shortcut = '<leader>>'
 
 set background=dark
 set encoding=utf-8
@@ -40,6 +88,8 @@ let g:user_emmet_settings = {
 \  },
 \}
 let g:ycm_key_list_stop_completion = ['<C-y>', '<Enter>']
+
+let g:vim_jsx_pretty_colorful_config = 1
 
 set ignorecase      " ignores case in searches
 set smartcase       " copes with camel/underscore/upper/lower case on searches and replacements
@@ -67,11 +117,8 @@ set listchars=""                  " Reset the listchars
 set listchars+=trail:.            " show trailing spaces as dots
 set listchars+=extends:>          " The character to show in the last column when wrap is                                   " off and the line continues beyond the right of the screen
 set listchars+=precedes:<         " The character to show in the last column when wrap is                                   " off and the line continues beyond the right of the screen
-set backupdir=~/.vim/.tmp " remove swap and backup files from your working dir
-set directory=~/.vim/.tmp
 set laststatus=2
 set noswapfile
-set foldlevel=99
 
 " syntax matching help -- perlgem-centric,
 augroup syntax
@@ -85,7 +132,7 @@ augroup syntax
   au BufNewFile,BufReadPost *.json set foldmethod=syntax
   au BufNewFile,BufReadPost *.*.liquid let b:liquid_subtype = 'html'
   au BufRead,BufNewFile *.ejs setfiletype html
-  au FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+  au BufNewFile,BufRead *.jsx setlocal ft=html ft=javascript
   au FileChangedShellPost *
         \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 augroup end
@@ -105,7 +152,7 @@ map <Leader>f :CtrlP<cr>
 map <leader>a :Ack!<space>
 map <leader>gb :Git blame<cr>
 nmap <leader>b :b#<cr>
-" map - to move a line up
+" map * to move a line up
 nnoremap * ddkP
 " map - to move a line down
 nnoremap - ddp
@@ -135,6 +182,7 @@ nnoremap k gk
 
 vnoremap j gj
 vnoremap k gk
+noremap <Leader>d "_ddP
 
 " ABBREVIATIONS:
 iabbrev wiz wiznia@gmail.com
@@ -143,13 +191,12 @@ set guicursor=n-v-c:block-Cursor
 set guicursor+=i:ver100-iCursor
 set guicursor+=n-v-c:blinkon0
 set guicursor+=i:blinkwait10
-exec "set <F24>=\<Esc>[O"
-exec "set <F25>=\<Esc>[I"
 
 colorscheme gruvbox
 highlight Cursorline ctermbg=black
 
 set visualbell
+set foldlevelstart=20
 
 " WSL yank support
 let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
@@ -158,4 +205,12 @@ if executable(s:clip)
     autocmd!
     autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
   augroup END
+endif
+
+" Ignore <F24> and <F25> globally
+if exists('$WT_SESSION')
+    nnoremap <F24> <nop>
+    nnoremap <F25> <nop>
+    inoremap <F24> <nop>
+    inoremap <F25> <nop>
 endif
