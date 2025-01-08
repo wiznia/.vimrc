@@ -182,6 +182,7 @@ nnoremap k gk
 
 vnoremap j gj
 vnoremap k gk
+" paste and replace line
 noremap <Leader>d "_ddP
 
 " ABBREVIATIONS:
