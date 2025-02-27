@@ -37,7 +37,7 @@ Plugin 'neoclide/coc-tsserver'
 " SirVer/ultisnips Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
 " - https://github.com/Valloric/YouCompleteMe
 " - https://github.com/nvim-lua/completion-nvim
-let g:coc_global_extensions = ['coc-tsserver']
+let g:coc_global_extensions = ['coc-snippets','coc-tsserver','coc-pairs','coc-prettier','coc-json']
 
 " vim-closetag filenames like *.xml, *.html, *.xhtml, ...
 " These are the file extensions where this plugin is enabled.
@@ -159,7 +159,7 @@ nnoremap - ddp
 " map ,ev to open VIMRC file on a split horizontal window
 nnoremap <leader>ev :split $MYVIMRC<cr>
 " map ,sv to source VIMRC file
-nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr> :q<cr>
 " map oo to insert a new line below without entering insert mode
 nnoremap oo o<esc>
 " map OO to insert a new line above without entering insert mode
@@ -184,6 +184,8 @@ vnoremap j gj
 vnoremap k gk
 " paste and replace line
 noremap <Leader>d "_ddP
+" Make text uppercase
+noremap up gUaw
 
 " ABBREVIATIONS:
 iabbrev wiz wiznia@gmail.com
@@ -195,6 +197,37 @@ set guicursor+=i:blinkwait10
 
 colorscheme gruvbox
 highlight Cursorline ctermbg=black
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
 set visualbell
 set foldlevelstart=20
