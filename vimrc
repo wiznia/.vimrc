@@ -170,7 +170,8 @@ nnoremap <leader>v <C-w>v<C-w><C-w>
 nnoremap <leader>h <C-w>s<C-w><C-w>
 " map ,z to trigger zoom toggle on panes
 nnoremap <leader>z :ZoomWinTabToggle<cr>
-
+" map ,s to search inside a document
+nnoremap <leader>s /
 
 " insert new lines without having to enter text
 nmap <silent> <leader>o o<ESC>
