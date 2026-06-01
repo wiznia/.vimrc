@@ -33,6 +33,8 @@ Plugin 'maxmellon/vim-jsx-pretty'
 Plugin 'ervandew/supertab'
 Plugin 'neoclide/coc.nvim'
 Plugin 'neoclide/coc-tsserver'
+Plugin 'github/copilot.vim'
+Plugin 'bling/vim-bufferline'
 
 " SirVer/ultisnips Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
 " - https://github.com/Valloric/YouCompleteMe
@@ -132,7 +134,6 @@ augroup syntax
   au BufNewFile,BufReadPost *.json set foldmethod=syntax
   au BufNewFile,BufReadPost *.*.liquid let b:liquid_subtype = 'html'
   au BufRead,BufNewFile *.ejs setfiletype html
-  au BufNewFile,BufRead *.jsx setlocal ft=html ft=javascript
   au FileChangedShellPost *
         \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 augroup end
@@ -152,6 +153,7 @@ map <Leader>f :CtrlP<cr>
 map <leader>a :Ack!<space>
 map <leader>gb :Git blame<cr>
 nmap <leader>b :b#<cr>
+nnoremap <leader>gs :G<CR>
 " map * to move a line up
 nnoremap * ddkP
 " map - to move a line down
@@ -177,6 +179,10 @@ nnoremap <leader>s /
 nmap <silent> <leader>o o<ESC>
 nmap <silent> <leader>O O<ESC>
 
+" Move between buffers with < and >
+nnoremap <Leader>< :bprev<cr>
+nnoremap <Leader>> :bnext<cr>
+
 " don't skipped wrapped lines when moving up and down
 nnoremap j gj
 nnoremap k gk
@@ -196,31 +202,41 @@ set guicursor+=i:ver100-iCursor
 set guicursor+=n-v-c:blinkon0
 set guicursor+=i:blinkwait10
 
+let g:copilot_no_tab_map = v:true
+
 colorscheme gruvbox
 highlight Cursorline ctermbg=black
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: There's always complete item selected by default, you may want to enable
-" no select by `"suggest.noselect": true` in your configuration file.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice.
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
+" Function used by CoC and SmartTab
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Smart <Tab> that works with CoC and Copilot
+function! SmartTab() abort
+  if coc#pum#visible()
+    return coc#pum#next(1)
+  elseif exists('*copilot#Accept')
+    let l:accepted = copilot#Accept("")
+    if l:accepted !=# ''
+      return l:accepted
+    endif
+  endif
+  return CheckBackspace() ? "\<Tab>" : coc#refresh()
+endfunction
+
+" Use Tab for CoC completion, Copilot accept, or literal Tab
+imap <silent><script><expr> <TAB> SmartTab()
+
+" Shift-Tab: previous item in CoC popup or backspace
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Enter: confirm CoC completion or normal Enter + coc#on_enter
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 augroup mygroup
   autocmd!
@@ -249,3 +265,15 @@ if exists('$WT_SESSION')
     inoremap <F24> <nop>
     inoremap <F25> <nop>
 endif
+
+" Format on save with coc-prettier for JS/TS/React files
+augroup FormatOnSave
+  autocmd!
+  autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :silent! Prettier
+augroup END
+
+" Force correct filetype for TSX
+augroup FixTsxFiletype
+  autocmd!
+  autocmd BufNewFile,BufRead *.tsx set filetype=typescriptreact
+augroup END
